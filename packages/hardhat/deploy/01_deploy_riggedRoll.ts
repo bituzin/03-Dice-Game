@@ -11,21 +11,24 @@ const deployRiggedRoll: DeployFunction = async function (hre: HardhatRuntimeEnvi
   const diceGameAddress = await diceGame.getAddress();
 
   // Uncomment to deploy RiggedRoll contract
-  // await deploy("RiggedRoll", {
-  //   from: deployer,
-  //   log: true,
-  //   args: [diceGameAddress],
-  //   autoMine: true,
-  // });
+  await deploy("RiggedRoll", {
+    from: deployer,
+    log: true,
+    args: [diceGameAddress],
+    autoMine: true,
+  });
 
-  // const riggedRoll: RiggedRoll = await ethers.getContract("RiggedRoll", deployer);
+  const riggedRoll: RiggedRoll = await ethers.getContract("RiggedRoll", deployer);
 
   // Please replace the text "Your Address" with your own address.
-  // try {
-  //   await riggedRoll.transferOwnership("Your Address");
-  // } catch (err) {
-  //   console.log(err);
-  // }
+  // Set the user's front-end address as owner
+  const frontEndAddress = "0xE763efe0069cc33922430302669bEA7d7C92f18E";
+  try {
+    await riggedRoll.transferOwnership(frontEndAddress);
+    console.log(`Ownership transferred to front-end address: ${frontEndAddress}`);
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export default deployRiggedRoll;
